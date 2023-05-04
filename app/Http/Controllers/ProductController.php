@@ -2,16 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Subcategory;
+use App\Http\Requests\ProductStoreRequest;
 
 class ProductController extends Controller
 {
+    private $subcategory;
+    private $product;
+
+    public function __construct(Product $product, Subcategory $subcategory)
+    {
+        $this->subcategory = $subcategory;
+        $this->product = $product;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $subcategories = $this->subcategory->all();
+        $products = $this->product->with('subcategory')->get();
+        return view('products.index', compact('subcategories', 'products'));
     }
 
     /**
@@ -25,9 +37,17 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //
+        $product = $this->product->create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'subcategory_id' => $request->subcategory_id,
+        ]);
+
+        $product = Product::where('id', $product->id)->with('subcategory')->first();
+        return view('products.row', compact('product'));
     }
 
     /**
@@ -41,24 +61,35 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return response()->json(['product' => $product, 'success' => true, 'update_route' => route('products.update', $product->id)]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductStoreRequest $request, Product $product)
     {
-        //
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'subcategory_id' => $request->subcategory_id,
+
+        ]);
+
+        $product = Product::where('id', $product->id)->with('subcategory')->first();
+        return view('products.row', compact('product'));
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json(['success' => true, 'message' => 'Product deleted successfully']);
     }
 }
