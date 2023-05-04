@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +18,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('dashboard');
-});
+})->name('dashboard');
+
+
+/*
+|--------------------------------------------------------------------------
+| Products Routes
+|--------------------------------------------------------------------------
+*/
+Route::resource('products', ProductController::class);
+
+/*
+|--------------------------------------------------------------------------
+| Categories Routes
+|--------------------------------------------------------------------------
+*/
+Route::resource('categories', CategoryController::class);
+
+/*
+|--------------------------------------------------------------------------
+| Subcategories Routes
+|--------------------------------------------------------------------------
+*/
+Route::resource('subcategories', SubCategoryController::class);
