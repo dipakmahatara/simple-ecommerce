@@ -68,7 +68,6 @@
                                         Category Name
                                     </label>
                                     <input name="name" value="{{ old('name') }}" class="appearance-none block w-full text-gray-700 focus:border-blue-500 focus:ring-blue-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight" id="grid-first-name" type="text" placeholder="Enter category name" required>
-                                    <p class="hidden text-red-500 text-xs italic add-name-error">Please enter category name</p>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +109,6 @@
                                         Category Name
                                     </label>
                                     <input name="name" value="{{ old('name') }}" id="edit_name" class="appearance-none block w-full text-gray-700 focus:border-blue-500 focus:ring-blue-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight" id="grid-first-name" type="text" placeholder="Enter category name" required>
-                                    <p class="text-red-500 text-xs italic edit-name-error">Please enter category name</p>
                                 </div>
                             </div>
                         </div>
